@@ -11,8 +11,8 @@ obj:
 obj/main.o: src/main.cpp
 	g++ -Iinc -W -Wall -pedantic -c -o obj/main.o src/main.cpp
 
-obj/graph.o: src/arr_manag.cpp
-	g++ -Iinc -W -Wall -pedantic -c -o obj/arr_manag.o src/arr_manag.cpp
+obj/graph.o: src/graph.cpp
+	g++ -Iinc -W -Wall -pedantic -c -o obj/graph.o src/graph.cpp
 
 clean:
 	rm -f obj/* ./${APP} core.* core
