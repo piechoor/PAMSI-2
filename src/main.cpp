@@ -1,8 +1,8 @@
-#include <iostream>
-#include "graph.hh"
+#include "graph_list.hh"
+#include "graph_matrix.hh"
 
 int main() {
-    Graph newGraph(1000,50);
-
+    Graph_List newGraph(10,100);
+    newGraph.display();
     return 0;
 }
