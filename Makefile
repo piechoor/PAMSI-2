@@ -1,4 +1,4 @@
-APP=sort
+APP=graph
 __start__: obj ./${APP}
 	rm -f core.* core; ./${APP}
 

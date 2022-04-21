@@ -2,8 +2,7 @@
 #include "graph.hh"
 
 int main() {
-    Graph newGraph(10,100);
-    newGraph.showMatrix();
+    Graph newGraph(1000,50);
 
     return 0;
 }
