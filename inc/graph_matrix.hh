@@ -8,7 +8,8 @@ class Graph_Matrix : public Graph {
         void fillRandom();
 
     public:
-        void display();
+        void display();   
+        int* BellmanFord(int rel_node);
         Graph_Matrix(int no_vertices, float graph_density);
         ~Graph_Matrix();
 };

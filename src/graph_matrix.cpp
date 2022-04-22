@@ -17,15 +17,33 @@ void Graph_Matrix::fillRandom() {
         for (int j=0; j!=i; ++j, ++nodesFilled) {
             if (nodesFilled>nodesToFill) break;
             adj_matrix[i][j] = (rand() % MAX_NODE_VAL);
-            this->edges++;
+            this->edges+=2;
         }
     }
     for (int i=0; i<this->vertices; ++i) {
-        for (int j=0; j!=i; ++j) {
+        for (int j=0; j!=i; ++j)
             adj_matrix[j][i] = adj_matrix[i][j];
-            this->edges++;
+    }
+}
+
+int* Graph_Matrix::BellmanFord(int rel_node) {
+    int *dist = new int[this->vertices]; //array with distances to each node
+    int tempDist;
+
+    //initializing distances with infinity-like value
+    for (int i=0; i<this->vertices; ++i)
+        dist[i] = MAX_DIST;
+    dist[rel_node] = 0;
+
+    //relaxing edges vertices-1 times
+    for (int i=0; i <this->vertices; ++i) {
+        for (int j=0; j <this->vertices; ++j) {
+            if (i==j) continue;
+            if (dist[i] + adj_matrix[i][j] < dist[j])
+                dist[j] = dist[i] + adj_matrix[i][j];
         }
     }
+    return dist;
 }
 
 Graph_Matrix::Graph_Matrix(int no_vertices, float graph_density) {
@@ -42,6 +60,12 @@ Graph_Matrix::Graph_Matrix(int no_vertices, float graph_density) {
             adj_matrix[i][j] = 0;
     }
     this->fillRandom();
+    adj_matrix[0][3]=1;
+    adj_matrix[3][0]=1;
+    adj_matrix[3][2]=6;
+    adj_matrix[2][2]=6;
+    adj_matrix[0][2]=66;
+    adj_matrix[2][0]=66;
 }
 
 
