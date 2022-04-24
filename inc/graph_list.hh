@@ -24,5 +24,6 @@ class Graph_List : public Graph {
 
     public:
         void display();    
-        Graph_List(int no_vertices, float graph_density);
+        Graph_List(int no_vertices, int start_node, float graph_density);
+        int* BellmanFord();
 };

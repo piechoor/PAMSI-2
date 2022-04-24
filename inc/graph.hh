@@ -3,17 +3,18 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-
-#define MAX_NODE_VAL 100
-#define MAX_DIST 9*MAX_NODE_VAL
+#include <fstream>
+#include <cstdlib>
+#include "constants.hh"
 
 class Graph {
     protected:
-        int edges, vertices, density;
+        int edges, vertices, start_node;
+        float density;
 
     public:
         int get_edges() {return this->edges;}
 
         Graph();
-        Graph(int no_vertices, float graph_density);
+        Graph(int no_vertices, int start_node, float graph_density);
 };

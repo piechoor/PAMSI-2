@@ -8,8 +8,9 @@ class Graph_Matrix : public Graph {
         void fillRandom();
 
     public:
-        void display();   
-        int* BellmanFord(int rel_node);
-        Graph_Matrix(int no_vertices, float graph_density);
+        void display();
+        int* BellmanFord();
+        Graph_Matrix(const char *file_name);
+        Graph_Matrix(int no_vertices, int start_node, float graph_density);
         ~Graph_Matrix();
 };

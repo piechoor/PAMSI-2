@@ -46,14 +46,40 @@ void Graph_List::display() {
     }
 }
 
-Graph_List::Graph_List(int no_vertices, float graph_density) {
+Graph_List::Graph_List(int no_vertices, int start_node, float graph_density) {
     this->edges = 0;
     this->vertices = no_vertices;
+    this->start_node = start_node;
     this->density = graph_density;
     
-    this->adj_list = new AdjList;
+    this->adj_list = new AdjList[this->vertices];
+    std::cout << "VERT: " << this->vertices << "\n";
     for (int i=0; i<this->vertices; ++i)
         adj_list[i].head = NULL;
 
     this->fillRandom();
+}
+
+int* Graph_List::BellmanFord() {
+    int *dist = new int[this->vertices]; //array with distances to each node
+    int tempDist;
+
+    //initializing distances with infinity-like value
+    for (int i=0; i<this->vertices; ++i)
+        dist[i] = MAX_DIST;
+    dist[this->start_node] = 0;
+
+    //relaxing edges vertices-1 times
+    for (int i=0; i<this->vertices; ++i) {
+        Node* ptrNode = adj_list[i].head;
+        //int j=0;
+        while (ptrNode) {
+            //if (i==j) continue;
+            if (dist[i] + ptrNode->weight < dist[ptrNode->dest])
+                dist[ptrNode->dest] = dist[i] + ptrNode->weight;
+            ptrNode = ptrNode->next;
+            //++j;
+        }
+    }
+    return dist;
 }

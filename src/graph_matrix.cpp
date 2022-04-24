@@ -26,14 +26,14 @@ void Graph_Matrix::fillRandom() {
     }
 }
 
-int* Graph_Matrix::BellmanFord(int rel_node) {
+int* Graph_Matrix::BellmanFord() {
     int *dist = new int[this->vertices]; //array with distances to each node
     int tempDist;
 
     //initializing distances with infinity-like value
     for (int i=0; i<this->vertices; ++i)
         dist[i] = MAX_DIST;
-    dist[rel_node] = 0;
+    dist[this->start_node] = 0;
 
     //relaxing edges vertices-1 times
     for (int i=0; i <this->vertices; ++i) {
@@ -46,9 +46,22 @@ int* Graph_Matrix::BellmanFord(int rel_node) {
     return dist;
 }
 
-Graph_Matrix::Graph_Matrix(int no_vertices, float graph_density) {
+Graph_Matrix::Graph_Matrix(const char *file_name) {
+    std::ifstream txt_file;
+    txt_file.open(file_name);
+    if(!txt_file) {
+        std::cerr << "File error - file could not be opened";
+        exit(1);
+    }
+    //txt_file >> this->edges >> this->vertices >> ;
+    //while(!txt_file.eof())
+
+}
+
+Graph_Matrix::Graph_Matrix(int no_vertices, int start_node, float graph_density) {
     this->edges = 0;
     this->vertices = no_vertices;
+    this->start_node = start_node;
     this->density = graph_density;
 
     this->adj_matrix = new int*[no_vertices];
@@ -60,12 +73,6 @@ Graph_Matrix::Graph_Matrix(int no_vertices, float graph_density) {
             adj_matrix[i][j] = 0;
     }
     this->fillRandom();
-    adj_matrix[0][3]=1;
-    adj_matrix[3][0]=1;
-    adj_matrix[3][2]=6;
-    adj_matrix[2][2]=6;
-    adj_matrix[0][2]=66;
-    adj_matrix[2][0]=66;
 }
 
 
