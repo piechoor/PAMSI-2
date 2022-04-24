@@ -12,17 +12,27 @@ void Graph_Matrix::display() {
 void Graph_Matrix::fillRandom() { 
     this->edges=0;
     srand((unsigned)time(NULL));
-    int nodesToFill = this->density*vertices*(vertices-1)/200, nodesFilled=0;
-    for (int i=0; i<this->vertices; ++i) {
-        for (int j=0; j!=i; ++j, ++nodesFilled) {
-            if (nodesFilled>nodesToFill) break;
-            adj_matrix[i][j] = (rand() % MAX_NODE_VAL);
-            this->edges+=2;
+    int nodesToFill = this->density*vertices*(vertices-1)/100;
+    if (directed) {
+        for (int i=0; i<this->vertices; ++i) {
+            for (int j=0; j<this->vertices; ++j) {
+                if (this->edges>=nodesToFill) break;
+                if (i==j) continue;
+                adj_matrix[i][j] = (rand() % MAX_NODE_VAL);
+                this->edges++;
+            }
         }
     }
-    for (int i=0; i<this->vertices; ++i) {
-        for (int j=0; j!=i; ++j)
-            adj_matrix[j][i] = adj_matrix[i][j];
+    else if (!directed) {
+        for (int i=0; i<this->vertices; ++i) {
+            for (int j=0; j!=i; ++j) {
+                if (this->edges>=nodesToFill) break;
+                if (i==j) continue;
+                adj_matrix[i][j] = (rand() % MAX_NODE_VAL);
+                adj_matrix[j][i] = adj_matrix[i][j];
+                this->edges+=2;
+            }
+        }
     }
 }
 
@@ -53,16 +63,30 @@ Graph_Matrix::Graph_Matrix(const char *file_name) {
         std::cerr << "File error - file could not be opened";
         exit(1);
     }
-    //txt_file >> this->edges >> this->vertices >> ;
-    //while(!txt_file.eof())
+    int temp_from, temp_to, temp_weight;
+    this->density = 100;
+    this->directed = false;
+    txt_file >> this->edges >> this->vertices >> this->start_node;
+    this->adj_matrix = new int*[this->vertices];
+    for(int i=0; i<this->vertices; ++i)
+        this->adj_matrix[i] = new int[this->vertices];
 
+    for (int i=0; i<this->vertices; ++i) {
+        for (int j=0; j<this->vertices; ++j)
+            adj_matrix[i][j] = 0;
+    }
+    while(!txt_file.eof()) {
+        txt_file >> temp_from >> temp_to >> temp_weight;
+        adj_matrix[temp_from][temp_to] = temp_weight;
+    }
 }
 
-Graph_Matrix::Graph_Matrix(int no_vertices, int start_node, float graph_density) {
+Graph_Matrix::Graph_Matrix(int no_vertices, int start_node, float graph_density, bool if_directed) {
     this->edges = 0;
     this->vertices = no_vertices;
     this->start_node = start_node;
     this->density = graph_density;
+    this->directed = if_directed;
 
     this->adj_matrix = new int*[no_vertices];
     for(int i=0; i<no_vertices; ++i)

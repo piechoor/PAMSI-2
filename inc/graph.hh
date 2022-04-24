@@ -11,6 +11,7 @@ class Graph {
     protected:
         int edges, vertices, start_node;
         float density;
+        bool directed;
 
     public:
         int get_edges() {return this->edges;}

@@ -1,4 +1,4 @@
-#define GRAPH_SIZE 40
+#define GRAPH_SIZE 4
 #define GRAPH_DENSITY 100
 #define START_NODE 0
 #define MAX_NODE_VAL 100

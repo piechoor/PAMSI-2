@@ -23,7 +23,8 @@ class Graph_List : public Graph {
         void fillRandom();
 
     public:
-        void display();    
-        Graph_List(int no_vertices, int start_node, float graph_density);
+        void display();
+        Graph_List(const char *file_name);
+        Graph_List(int no_vertices, int start_node, float graph_density, bool if_directed);
         int* BellmanFord();
 };

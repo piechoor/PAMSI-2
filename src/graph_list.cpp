@@ -12,25 +12,37 @@ void Graph_List::addEdge(int src_node, int dest_node, int edge_weight) {
     Node *newNode = createNode(dest_node, edge_weight);
     newNode->next = adj_list[src_node].head;
     adj_list[src_node].head = newNode;
-    newNode = createNode(src_node, edge_weight);
-    newNode->next = adj_list[dest_node].head;
-    adj_list[dest_node].head = newNode;
+    this->edges++;
+    // DODAJE SYMETRYCZNE ELEMENTY
+    // newNode = createNode(src_node, edge_weight);
+    // newNode->next = adj_list[dest_node].head;
+    // adj_list[dest_node].head = newNode;
 }
 
 void Graph_List::fillRandom() {
-    //int test_nodesFilled;
     this->edges=0;
     srand((unsigned)time(NULL));
-    int nodesToFill = this->density*vertices*(vertices-1)/200, nodesFilled=0;
-    for (int i=0; i<this->vertices; ++i) {
-        for (int j=0; j!=i; ++j, ++nodesFilled) {
-            if (nodesFilled>nodesToFill) break;
-            addEdge(i,j,(rand() % MAX_NODE_VAL));
-            this->edges+=2;
-            //test_nodesFilled++;
+    int nodesToFill = this->density*vertices*(vertices-1)/100;
+    int common_val;
+    if (directed) {
+        for (int i=0; i<this->vertices; ++i) {
+            for (int j=0; j<this->vertices; ++j) {
+                if (this->edges>=nodesToFill) break;
+                if (i==j) continue;
+                addEdge(i,j,(rand() % MAX_NODE_VAL));
+            }
         }
     }
-    //std::cout<<"Nodes filled " << test_nodesFilled << std::endl;
+    else if (!directed) {
+        for (int i=0; i<this->vertices; ++i) {
+            for (int j=0; j!=i; ++j) {
+                if (this->edges>=nodesToFill) break;
+                common_val = rand() % MAX_NODE_VAL;
+                addEdge(i,j,common_val);
+                addEdge(j,i,common_val);
+            }
+        }
+    }
 }
 
 void Graph_List::display() {
@@ -46,11 +58,35 @@ void Graph_List::display() {
     }
 }
 
-Graph_List::Graph_List(int no_vertices, int start_node, float graph_density) {
+Graph_List::Graph_List(const char *file_name) {
+std::ifstream txt_file;
+    txt_file.open(file_name);
+    if(!txt_file) {
+        std::cerr << "File error - file could not be opened";
+        exit(1);
+    }
+    int temp_from, temp_to, temp_weight;
+    this->density = 100;
+    this->directed = false;
+    txt_file >> this->edges >> this->vertices >> this->start_node;
+
+    this->adj_list = new AdjList[this->vertices];
+    std::cout << "VERT: " << this->vertices << "\n";
+    for (int i=0; i<this->vertices; ++i)
+        adj_list[i].head = NULL;
+
+    while(!txt_file.eof()) {
+        txt_file >> temp_from >> temp_to >> temp_weight;
+        addEdge(temp_from, temp_to, temp_weight);
+    }
+}
+
+Graph_List::Graph_List(int no_vertices, int start_node, float graph_density, bool if_directed) {
     this->edges = 0;
     this->vertices = no_vertices;
     this->start_node = start_node;
     this->density = graph_density;
+    this->directed = if_directed;
     
     this->adj_list = new AdjList[this->vertices];
     std::cout << "VERT: " << this->vertices << "\n";
