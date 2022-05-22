@@ -1,5 +1,7 @@
-#define GRAPH_SIZE 4
-#define GRAPH_DENSITY 100
-#define START_NODE 0
-#define MAX_NODE_VAL 100
-#define MAX_DIST 9*MAX_NODE_VAL
+#define START_NODE 0 //node from which we measure distances to other nodes
+#define IS_DIRECTED true //specifies if graphs are directed
+#define NO_GRAPHS_TESTED 100 //number of graphs tested in 1 cycle
+
+#define MAX_NODE_VAL 100 //maximum value of a node
+#define MAX_DIST 9*MAX_NODE_VAL //number used as infinity value
+#define RESULTS_FILE "graph_distances.txt"
