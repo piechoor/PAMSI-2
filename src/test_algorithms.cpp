@@ -1,14 +1,14 @@
 #include "test_algorithms.hh"
 
 int test(int *sizes, int* densities) {
-    testFile();
+
     for (int i=1; i<=sizes[0]; ++i) {
         for (int j=1; j<=densities[0]; ++j) {
             Graph_Matrix newGraphM(sizes[i], START_NODE, densities[j], IS_DIRECTED);
             auto t_start = std::chrono::steady_clock::now();
             for (int k=0; k<NO_GRAPHS_TESTED; ++k) {
-                Graph_Matrix newGraphM(sizes[i], START_NODE, densities[j], IS_DIRECTED);
-                //newGraphM.fillRandom();
+                //Graph_Matrix newGraphM(sizes[i], START_NODE, densities[j], IS_DIRECTED);
+                newGraphM.fillRandom();
                 newGraphM.BellmanFord();
             }
             auto t_end = std::chrono::steady_clock::now();
@@ -24,8 +24,8 @@ int test(int *sizes, int* densities) {
             Graph_List newGraphL(sizes[i], START_NODE, densities[j], IS_DIRECTED);
             auto t_start = std::chrono::steady_clock::now();
             for (int k=0; k<NO_GRAPHS_TESTED; ++k) {
-                Graph_List newGraphL(sizes[i], START_NODE, densities[j], IS_DIRECTED);
-                //newGraphL.fillRandom();
+                //Graph_List newGraphL(sizes[i], START_NODE, densities[j], IS_DIRECTED);
+                newGraphL.fillRandom();
                 newGraphL.BellmanFord();
             }
             auto t_end = std::chrono::steady_clock::now();
@@ -39,9 +39,9 @@ int test(int *sizes, int* densities) {
     return 0;
 }
 
+
+//POROWNANIE ALGORYTMU DLA LISTY I MACIERZY SASIEDZTWA DLA GRAFU Z PLIKU
 void testFile() {
-///////IDENTYCZNY GRAF Z PLIKU
-//POROWNANIE ALGORYTMU DLA LISTY I MACIERZY SASIEDZTWA
     Graph_List gl("graph1.txt");
     Graph_Matrix gm("graph1.txt");
     gl.BellmanFord(); int *arrL = gl.get_distances();
